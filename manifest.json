@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Activity Tracker",
+  "version": "1.0",
+  "description": "Track time spent on websites and monitor browsing activity",
+
+  "permissions": ["tabs", "activeTab", "storage", "background"],
+
+  "host_permissions": ["<all_urls>"],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Activity Tracker",
+    "default_icon": {
+      "16": "icons/puzzle16.png",
+      "32": "icons/puzzle32.png",
+      "48": "icons/puzzle48.png",
+      "128": "icons/puzzle128.png"
+    }
+  },
+
+  "options_page": "settings.html",
+
+  "icons": {
+    "16": "icons/puzzle16.png",
+    "32": "icons/puzzle32.png",
+    "48": "icons/puzzle48.png",
+    "128": "icons/puzzle128.png"
+  }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Activity Tracker</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>🕒 Activity Tracker</h1>
+        <p class="subtitle">Your browsing activity overview</p>
+      </header>
+
+      <div class="stats-overview">
+        <div class="stat-card">
+          <span class="stat-value" id="totalSites">0</span>
+          <span class="stat-label">Sites Visited</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="totalTime">0m</span>
+          <span class="stat-label">Total Time</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="refreshBtn" class="btn btn-primary">🔄 Refresh</button>
+        <button id="settingsBtn" class="btn btn-secondary">⚙️ Settings</button>
+        <button id="clearBtn" class="btn btn-secondary">🗑️ Clear Data</button>
+      </div>
+
+      <div class="activity-list">
+        <h3>Website Activity</h3>
+        <div id="loadingMessage" class="loading">Loading activity data...</div>
+        <div id="activityContainer"></div>
+        <div id="noDataMessage" class="no-data" style="display: none">
+          No activity data available. Start browsing to see your activity!
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>Data is stored locally in your browser</p>
+      </footer>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
