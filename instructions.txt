@@ -1,0 +1,52 @@
+# Instructions for Activity Tracker Development Workflow
+
+This file defines how to work with prompts, responses, and feature updates.
+
+## 1. Response Tracking
+
+- All development tasks must be logged in **response.txt**.
+- Each entry in `response.txt` should include:
+  1. **Prompt/Instruction**: The request made.
+  2. **Action Plan**: What changes will be made.
+  3. **Implementation Notes**: Files modified, functions added/updated.
+  4. **Expected Outcome**: What feature or fix will be achieved.
+
+Example entry in response.txt:
+-----------------------------------
+Prompt: "Add a rest reminder feature."
+Action Plan: Implement a 30-minute continuous usage tracker with notifications.
+Implementation: Update background.js to track global browsing time. Add notification logic. Update README.
+Outcome: User gets notified every 30 minutes to take a break.
+-----------------------------------
+
+## 2. How to Update response.txt
+
+- After each change, append a new entry with date/time.
+- Do not overwrite old entries (keeps full change history).
+- Use clear, concise descriptions.
+
+## 3. Current Task - Rest Reminder Feature
+
+- **Goal**: Add a notification system that alerts users every 30 minutes of continuous browsing.
+- **Implementation Steps**:
+  1. Modify `background.js` to include a global activity timer.
+  2. Track elapsed active time across all tabs.
+  3. After 30 minutes, show a Chrome notification with a random exercise/stretch suggestion.
+  4. Reset timer after notification.
+  5. Update `README.md` to reflect the new feature.
+  6. Log changes in `response.txt`.
+
+- **Notification Examples**:
+  - "⏱ Time for a quick break! Try looking away from the screen for 20 seconds."
+  - "🙆 Stretch your arms and shoulders!"
+  - "👀 Roll your eyes gently to relax eye muscles."
+  - "🚶 Take a short walk or stand up for a minute."
+
+---
+
+## 4. General Rules
+
+- Always keep README.md clean (features, installation, usage).
+- Use instructions.txt for **tasks & prompts**.
+- Use response.txt for **completed actions**.
+- Maintain modular, well-commented code for new features.

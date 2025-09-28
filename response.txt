@@ -1,0 +1,75 @@
+# Activity Tracker Development Response Log
+
+## Entry 1 - September 24, 2025
+
+-----------------------------------
+**Prompt**: "Read the file instructions.txt and follow the things that are being put in there and create the new feature that is mentioned there"
+
+**Action Plan**: Implement a rest reminder feature that alerts users every 30 minutes of continuous browsing with random exercise/stretch suggestions. The system should track global browsing time across all tabs and reset after each notification.
+
+**Implementation Notes**: 
+- **Files Modified**:
+  - `manifest.json`: Added "notifications" permission for Chrome notifications
+  - `background.js`: Added rest reminder system with global activity tracking
+  - `README.md`: Updated with rest reminder feature documentation and changelog
+
+- **Functions Added/Updated**:
+  - `initializeRestReminder()`: Initialize the rest reminder system
+  - `startRestReminderTimer()`: Start/restart the 30-minute timer
+  - `showRestReminder()`: Display notification with random message
+  - `resetRestReminderTimer()`: Reset timer after notification
+  - Updated `chrome.windows.onFocusChanged` listener to handle timer pause/resume
+  - Updated extension startup to initialize rest reminder system
+
+- **Features Implemented**:
+  - Global activity timer tracking continuous browsing time
+  - 30-minute interval notifications with Chrome notifications API
+  - Random motivational messages (8 different messages)
+  - Smart timer management that pauses when browser loses focus
+  - Automatic timer reset after each notification
+  - Integration with existing activity tracking system
+
+**Expected Outcome**: Users will receive gentle break reminders every 30 minutes of continuous browsing with encouraging messages to take care of their health. The system promotes healthy browsing habits by suggesting eye breaks, stretches, hydration, and movement.
+
+**Additional Implementation Details**:
+- Timer pauses when browser window loses focus and resumes with correct remaining time
+- Uses Chrome notifications with proper icon and priority
+- Messages include emojis and actionable suggestions for health breaks
+- Fully integrated with existing extension architecture
+- No user configuration required - works automatically after installation
+
+-----------------------------------
+
+## Entry 2 - September 24, 2025
+
+-----------------------------------
+**Prompt**: "Getting CSP error and switch it from a notification to a popup like the remainder time to a nudge on the side of the browser and show the countdown at all time and one the time is hot move it to show the encouraging words"
+
+**Action Plan**: Fix the Content Security Policy error by removing inline event handlers, and replace the Chrome notification system with a side popup that shows a live countdown timer. When the timer reaches zero, display encouraging break messages with an interactive "I took a break!" button.
+
+**Implementation Notes**: 
+- **Files Modified**:
+  - `popup.js`: Fixed CSP error by replacing inline onerror handler with proper event listener
+  - `manifest.json`: Removed "notifications" permission as no longer needed
+  - `content.js`: Completely redesigned rest reminder system with side popup
+  - `background.js`: Removed Chrome notifications system and related functions
+
+- **New Features Implemented**:
+  - **Side Popup with Live Countdown**: Shows remaining time in MM:SS format
+  - **Progress Bar**: Visual indicator of time progress towards break
+  - **Interactive UI**: Minimize/expand functionality with small indicator
+  - **Break Messages**: Random encouraging messages when countdown reaches zero
+  - **User Interaction**: "I took a break!" button to reset the timer
+  - **Persistent Timer**: Continues running even when minimized
+  - **Auto-initialization**: Starts automatically when pages load
+
+- **UI/UX Improvements**:
+  - Beautiful gradient design matching extension theme
+  - Smooth animations for show/hide transitions
+  - Minimizable to small circular indicator
+  - Non-intrusive placement on top-right corner
+  - Responsive design with proper z-index stacking
+
+**Expected Outcome**: Users now see a persistent side popup showing countdown to their next break. The timer is always visible, can be minimized, and shows encouraging messages when break time arrives. Much more user-friendly than notifications and provides continuous awareness of rest timing.
+
+-----------------------------------

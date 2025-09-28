@@ -146,7 +146,7 @@ function createActivityItem(domain, data, todayTime = 0) {
 
   item.innerHTML = `
     <div class="site-favicon">
-      <img src="${faviconUrl}" alt="${domain}" onerror="this.style.display='none'; this.parentElement.textContent='🌐';">
+      <img src="${faviconUrl}" alt="${domain}" class="favicon-img">
     </div>
     <div class="site-info">
       <div class="site-domain">${domain}</div>
@@ -158,6 +158,13 @@ function createActivityItem(domain, data, todayTime = 0) {
       ${timeDisplay}
     </div>
   `;
+
+  // Add error handling for favicon
+  const faviconImg = item.querySelector(".favicon-img");
+  faviconImg.addEventListener("error", function () {
+    this.style.display = "none";
+    this.parentElement.textContent = "🌐";
+  });
 
   return item;
 }
