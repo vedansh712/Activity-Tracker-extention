@@ -3,6 +3,7 @@
   "name": "Activity Tracker",
   "version": "1.0",
   "description": "Track time spent on websites and monitor browsing activity",
+  "author": "Vedansh Sharma",
 
   "permissions": ["tabs", "activeTab", "storage", "background"],
 

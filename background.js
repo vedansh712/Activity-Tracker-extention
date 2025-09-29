@@ -5,11 +5,31 @@ let currentTab = null;
 let startTime = null;
 let isActive = true;
 
+// Rest reminder variables
+let globalActivityStart = null;
+let restReminderInterval = null;
+const REST_REMINDER_INTERVAL = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+// Random rest reminder messages
+const restMessages = [
+  "⏱ Time for a quick break! Try looking away from the screen for 20 seconds.",
+  "🙆 Stretch your arms and shoulders!",
+  "👀 Roll your eyes gently to relax eye muscles.",
+  "🚶 Take a short walk or stand up for a minute.",
+  "💧 Stay hydrated! Grab a glass of water.",
+  "🧘 Take 5 deep breaths to relax your mind.",
+  "🤸 Do some neck stretches to relieve tension.",
+  "☀️ Look outside or at something far away to rest your eyes.",
+];
+
 // Initialize extension
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Activity Tracker extension installed");
   initializeStorage();
 });
+
+// Rest reminder system is now handled by content scripts
+// The side popup with countdown timer manages this functionality
 
 // Initialize storage with default values
 async function initializeStorage() {
@@ -17,6 +37,7 @@ async function initializeStorage() {
     "activityData",
     "redirectionRules",
     "dailyTimeTracking",
+    "restTimerConfig",
   ]);
   if (!result.activityData) {
     await chrome.storage.local.set({
@@ -33,6 +54,14 @@ async function initializeStorage() {
   if (!result.dailyTimeTracking) {
     await chrome.storage.local.set({
       dailyTimeTracking: {},
+    });
+  }
+  if (!result.restTimerConfig) {
+    await chrome.storage.local.set({
+      restTimerConfig: {
+        enabled: true,
+        duration: 30, // minutes
+      },
     });
   }
 }
@@ -254,6 +283,8 @@ chrome.windows.onFocusChanged.addListener(async (windowId) => {
     isActive = false;
     currentTab = null;
     startTime = null;
+
+    // Rest reminder is now handled by content scripts
   } else {
     // Browser gained focus
     isActive = true;
@@ -261,6 +292,8 @@ chrome.windows.onFocusChanged.addListener(async (windowId) => {
     if (tabs[0]) {
       startTracking(tabs[0]);
     }
+
+    // Rest reminder is now handled by content scripts
   }
 });
 
@@ -323,6 +356,36 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     return true;
   }
+
+  if (message.type === "GET_REST_TIMER_CONFIG") {
+    chrome.storage.local.get(["restTimerConfig"]).then((result) => {
+      sendResponse({
+        config: result.restTimerConfig || { enabled: true, duration: 30 },
+      });
+    });
+    return true;
+  }
+
+  if (message.type === "SAVE_REST_TIMER_CONFIG") {
+    chrome.storage.local.get(["restTimerConfig"]).then(async (result) => {
+      const currentConfig = result.restTimerConfig || {
+        enabled: true,
+        duration: 30,
+      };
+
+      // Update only the provided fields
+      if (message.enabled !== null && message.enabled !== undefined) {
+        currentConfig.enabled = message.enabled;
+      }
+      if (message.duration !== null && message.duration !== undefined) {
+        currentConfig.duration = message.duration;
+      }
+
+      await chrome.storage.local.set({ restTimerConfig: currentConfig });
+      sendResponse({ success: true, config: currentConfig });
+    });
+    return true;
+  }
 });
 
 // Periodic save (every 10 seconds)
@@ -365,4 +428,6 @@ chrome.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
   if (tabs[0]) {
     startTracking(tabs[0]);
   }
+
+  // Rest reminder is now handled by content scripts
 });

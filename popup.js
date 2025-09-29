@@ -3,6 +3,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   loadActivityData();
+  loadRestTimerConfig();
 
   // Add event listeners
   document
@@ -12,6 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("settingsBtn")
     .addEventListener("click", openSettings);
   document.getElementById("clearBtn").addEventListener("click", clearAllData);
+
+  // Rest timer configuration event listeners
+  document
+    .getElementById("restTimerEnabled")
+    .addEventListener("change", handleTimerToggle);
+  document
+    .getElementById("timerDuration")
+    .addEventListener("change", handleDurationChange);
 });
 
 // Format time from milliseconds to readable format
@@ -146,7 +155,7 @@ function createActivityItem(domain, data, todayTime = 0) {
 
   item.innerHTML = `
     <div class="site-favicon">
-      <img src="${faviconUrl}" alt="${domain}" onerror="this.style.display='none'; this.parentElement.textContent='🌐';">
+      <img src="${faviconUrl}" alt="${domain}" class="favicon-img">
     </div>
     <div class="site-info">
       <div class="site-domain">${domain}</div>
@@ -158,6 +167,13 @@ function createActivityItem(domain, data, todayTime = 0) {
       ${timeDisplay}
     </div>
   `;
+
+  // Add error handling for favicon
+  const faviconImg = item.querySelector(".favicon-img");
+  faviconImg.addEventListener("error", function () {
+    this.style.display = "none";
+    this.parentElement.textContent = "🌐";
+  });
 
   return item;
 }
@@ -197,5 +213,103 @@ async function clearAllData() {
       console.error("Error clearing data:", error);
       alert("Error clearing data. Please try again.");
     }
+  }
+}
+
+// Load rest timer configuration
+async function loadRestTimerConfig() {
+  try {
+    const response = await new Promise((resolve) => {
+      chrome.runtime.sendMessage({ type: "GET_REST_TIMER_CONFIG" }, resolve);
+    });
+
+    const config = response.config || {};
+    const enabled = config.enabled !== false; // Default to true
+    const duration = config.duration || 30; // Default to 30 minutes
+
+    // Update UI elements
+    document.getElementById("restTimerEnabled").checked = enabled;
+    document.getElementById("timerDuration").value = duration;
+
+    // Enable/disable duration selector based on timer state
+    updateDurationSelector(enabled);
+  } catch (error) {
+    console.error("Error loading rest timer config:", error);
+  }
+}
+
+// Handle timer enable/disable toggle
+async function handleTimerToggle(event) {
+  const enabled = event.target.checked;
+
+  try {
+    // Save configuration
+    await saveRestTimerConfig(enabled, null);
+
+    // Update UI
+    updateDurationSelector(enabled);
+
+    // Send message to content scripts
+    const tabs = await chrome.tabs.query({});
+    for (const tab of tabs) {
+      try {
+        chrome.tabs.sendMessage(tab.id, {
+          type: enabled ? "START_REST_TIMER" : "STOP_REST_TIMER",
+        });
+      } catch (error) {
+        // Ignore errors for tabs that don't have content script
+      }
+    }
+  } catch (error) {
+    console.error("Error toggling rest timer:", error);
+  }
+}
+
+// Handle duration change
+async function handleDurationChange(event) {
+  const duration = parseInt(event.target.value);
+
+  try {
+    // Save configuration
+    await saveRestTimerConfig(null, duration);
+
+    // Send message to content scripts to update duration
+    const tabs = await chrome.tabs.query({});
+    for (const tab of tabs) {
+      try {
+        chrome.tabs.sendMessage(tab.id, {
+          type: "UPDATE_REST_DURATION",
+          duration: duration,
+        });
+      } catch (error) {
+        // Ignore errors for tabs that don't have content script
+      }
+    }
+  } catch (error) {
+    console.error("Error updating rest timer duration:", error);
+  }
+}
+
+// Save rest timer configuration
+async function saveRestTimerConfig(enabled, duration) {
+  return new Promise((resolve) => {
+    chrome.runtime.sendMessage(
+      {
+        type: "SAVE_REST_TIMER_CONFIG",
+        enabled: enabled,
+        duration: duration,
+      },
+      resolve
+    );
+  });
+}
+
+// Update duration selector enabled/disabled state
+function updateDurationSelector(enabled) {
+  const durationContainer = document.getElementById("timerDurationContainer");
+  if (enabled) {
+    durationContainer.classList.remove("disabled");
+  } else {
+    durationContainer.classList.add("disabled");
   }
 }

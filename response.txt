@@ -1,0 +1,115 @@
+# Activity Tracker Development Response Log
+
+## Entry 1 - September 24, 2025
+
+-----------------------------------
+**Prompt**: "Read the file instructions.txt and follow the things that are being put in there and create the new feature that is mentioned there"
+
+**Action Plan**: Implement a rest reminder feature that alerts users every 30 minutes of continuous browsing with random exercise/stretch suggestions. The system should track global browsing time across all tabs and reset after each notification.
+
+**Implementation Notes**: 
+- **Files Modified**:
+  - `manifest.json`: Added "notifications" permission for Chrome notifications
+  - `background.js`: Added rest reminder system with global activity tracking
+  - `README.md`: Updated with rest reminder feature documentation and changelog
+
+- **Functions Added/Updated**:
+  - `initializeRestReminder()`: Initialize the rest reminder system
+  - `startRestReminderTimer()`: Start/restart the 30-minute timer
+  - `showRestReminder()`: Display notification with random message
+  - `resetRestReminderTimer()`: Reset timer after notification
+  - Updated `chrome.windows.onFocusChanged` listener to handle timer pause/resume
+  - Updated extension startup to initialize rest reminder system
+
+- **Features Implemented**:
+  - Global activity timer tracking continuous browsing time
+  - 30-minute interval notifications with Chrome notifications API
+  - Random motivational messages (8 different messages)
+  - Smart timer management that pauses when browser loses focus
+  - Automatic timer reset after each notification
+  - Integration with existing activity tracking system
+
+**Expected Outcome**: Users will receive gentle break reminders every 30 minutes of continuous browsing with encouraging messages to take care of their health. The system promotes healthy browsing habits by suggesting eye breaks, stretches, hydration, and movement.
+
+**Additional Implementation Details**:
+- Timer pauses when browser window loses focus and resumes with correct remaining time
+- Uses Chrome notifications with proper icon and priority
+- Messages include emojis and actionable suggestions for health breaks
+- Fully integrated with existing extension architecture
+- No user configuration required - works automatically after installation
+
+-----------------------------------
+
+## Entry 2 - September 24, 2025
+
+-----------------------------------
+**Prompt**: "Getting CSP error and switch it from a notification to a popup like the remainder time to a nudge on the side of the browser and show the countdown at all time and one the time is hot move it to show the encouraging words"
+
+**Action Plan**: Fix the Content Security Policy error by removing inline event handlers, and replace the Chrome notification system with a side popup that shows a live countdown timer. When the timer reaches zero, display encouraging break messages with an interactive "I took a break!" button.
+
+**Implementation Notes**: 
+- **Files Modified**:
+  - `popup.js`: Fixed CSP error by replacing inline onerror handler with proper event listener
+  - `manifest.json`: Removed "notifications" permission as no longer needed
+  - `content.js`: Completely redesigned rest reminder system with side popup
+  - `background.js`: Removed Chrome notifications system and related functions
+
+- **New Features Implemented**:
+  - **Side Popup with Live Countdown**: Shows remaining time in MM:SS format
+  - **Progress Bar**: Visual indicator of time progress towards break
+  - **Interactive UI**: Minimize/expand functionality with small indicator
+  - **Break Messages**: Random encouraging messages when countdown reaches zero
+  - **User Interaction**: "I took a break!" button to reset the timer
+  - **Persistent Timer**: Continues running even when minimized
+  - **Auto-initialization**: Starts automatically when pages load
+
+- **UI/UX Improvements**:
+  - Beautiful gradient design matching extension theme
+  - Smooth animations for show/hide transitions
+  - Minimizable to small circular indicator
+  - Non-intrusive placement on top-right corner
+  - Responsive design with proper z-index stacking
+
+**Expected Outcome**: Users now see a persistent side popup showing countdown to their next break. The timer is always visible, can be minimized, and shows encouraging messages when break time arrives. Much more user-friendly than notifications and provides continuous awareness of rest timing.
+
+-----------------------------------
+
+## Entry 3 - September 29, 2025
+
+-----------------------------------
+**Prompt**: "Make the 30 min timer configurable like people can choose how much time they want to set the timer for and make it so that it could be disabled and enabled also and don't put it on the setting page but put it on the popup that opens when the extension is pressed"
+
+**Action Plan**: Add configurable timer duration options (15 minutes to 2 hours) and enable/disable toggle directly to the main extension popup interface. Remove dependency on settings page for timer configuration and implement real-time configuration updates across all tabs.
+
+**Implementation Notes**: 
+- **Files Modified**:
+  - `popup.html`: Added rest timer configuration section with toggle switch and duration dropdown
+  - `popup.css`: Added styles for toggle switch, dropdown, and configuration layout
+  - `popup.js`: Added timer configuration UI handlers and storage management
+  - `background.js`: Added storage initialization and message handlers for timer config
+  - `content.js`: Updated to use configurable duration and enable/disable functionality
+  - `README.md`: Updated documentation with configuration options and new version info
+
+- **New Configuration Features**:
+  - **Duration Options**: 15, 20, 25, 30, 45, 60, 90, 120 minutes
+  - **Toggle Switch**: Beautiful animated enable/disable control
+  - **Real-time Updates**: Changes apply immediately to all open tabs
+  - **Automatic Storage**: Configuration saved to browser storage
+  - **Visual Feedback**: Duration selector disabled when timer is off
+
+- **UI/UX Improvements**:
+  - **In-Popup Configuration**: No need to visit separate settings page
+  - **Intuitive Toggle**: Modern toggle switch with smooth animations
+  - **Dropdown Selection**: Easy-to-use duration picker with time descriptions
+  - **Responsive Design**: Configuration section fits seamlessly in popup
+  - **Visual States**: Clear indication when timer is enabled/disabled
+
+- **Technical Implementation**:
+  - **Storage Schema**: Added `restTimerConfig` with enabled/duration fields
+  - **Message Passing**: Implemented config sync between popup and content scripts
+  - **State Management**: Proper loading and saving of configuration
+  - **Error Handling**: Graceful fallbacks and error logging
+
+**Expected Outcome**: Users can now easily customize their rest timer experience directly from the main extension popup. They can choose from 8 different time intervals (15 minutes to 2 hours) and instantly enable or disable the timer. Changes apply immediately to all tabs without requiring page refreshes or visiting settings pages.
+
+-----------------------------------

@@ -24,6 +24,33 @@
         </div>
       </div>
 
+      <div class="rest-timer-config">
+        <h3>🕒 Rest Timer Settings</h3>
+        <div class="timer-controls">
+          <div class="timer-toggle">
+            <label class="toggle-switch">
+              <input type="checkbox" id="restTimerEnabled" checked />
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">Enable Rest Timer</span>
+          </div>
+
+          <div class="timer-duration" id="timerDurationContainer">
+            <label for="timerDuration">Break interval:</label>
+            <select id="timerDuration">
+              <option value="15">15 minutes</option>
+              <option value="20">20 minutes</option>
+              <option value="25">25 minutes</option>
+              <option value="30" selected>30 minutes</option>
+              <option value="45">45 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="90">1.5 hours</option>
+              <option value="120">2 hours</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <div class="controls">
         <button id="refreshBtn" class="btn btn-primary">🔄 Refresh</button>
         <button id="settingsBtn" class="btn btn-secondary">⚙️ Settings</button>

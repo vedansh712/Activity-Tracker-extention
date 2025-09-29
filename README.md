@@ -16,6 +16,7 @@ A comprehensive browser extension that monitors your web browsing activity and t
 - **Beautiful UI**: Modern, responsive popup interface with activity statistics
 - **Local Data Storage**: All data stored locally in your browser for privacy
 - **Detailed Statistics**: Shows total time, visit counts, and last visit times for each domain
+- **🔔 Rest Reminder System**: Automatic notifications every 30 minutes to encourage healthy browsing habits
 
 ## 📁 Project Structure
 
@@ -238,6 +239,68 @@ The extension uses intelligent domain extraction:
 - **View Progress**: See daily time usage and remaining limits
 - **Clear Rules**: Remove all rules at once if needed
 
+### 🔔 Rest Reminder System
+
+**Stay healthy while browsing with automatic break reminders!**
+
+#### How It Works
+
+The extension automatically tracks your continuous browsing activity and displays a persistent side popup with a countdown timer, showing you exactly when your next break is due. You can customize the break interval and enable/disable the timer directly from the extension popup.
+
+#### Features
+
+- **Configurable Timer**: Choose from 15 minutes to 2 hours break intervals
+- **Enable/Disable Toggle**: Turn the rest timer on or off as needed
+- **Live Countdown Timer**: Shows exact time remaining until your next break (MM:SS format)
+- **Persistent Side Popup**: Always visible on the top-right of your browser pages
+- **Minimizable Design**: Can be collapsed to a small circular indicator
+- **Progress Bar**: Visual progress indicator showing time elapsed
+- **Interactive Break Messages**: Shows different encouraging messages when time is up:
+  - "⏱ Time for a quick break! Try looking away from the screen for 20 seconds."
+  - "🙆 Stretch your arms and shoulders!"
+  - "👀 Roll your eyes gently to relax eye muscles."
+  - "🚶 Take a short walk or stand up for a minute."
+  - "💧 Stay hydrated! Grab a glass of water."
+  - "🧘 Take 5 deep breaths to relax your mind."
+  - "🤸 Do some neck stretches to relieve tension."
+  - "☀️ Look outside or at something far away to rest your eyes."
+
+#### Benefits
+
+- **Reduce Eye Strain**: Regular breaks help prevent computer vision syndrome
+- **Improve Posture**: Reminders to stretch and move around
+- **Stay Hydrated**: Gentle nudges to drink water
+- **Mental Health**: Short breaks improve focus and reduce stress
+- **Always Visible**: Continuous awareness of break timing with countdown display
+- **User-Controlled**: Click "I took a break!" to reset the timer when you're ready
+
+#### Configuration Options
+
+Access rest timer settings directly from the extension popup (click the extension icon):
+
+**Timer Duration Options:**
+
+- 15 minutes (frequent breaks for intensive work)
+- 20 minutes (Pomodoro-style intervals)
+- 25 minutes (classic Pomodoro technique)
+- 30 minutes (default, balanced for most users)
+- 45 minutes (longer focus sessions)
+- 1 hour (extended work periods)
+- 1.5 hours (deep work sessions)
+- 2 hours (maximum interval)
+
+**Enable/Disable:**
+
+- Toggle the rest timer on or off using the switch in the popup
+- When disabled, the side popup disappears from all tabs
+- When enabled, the timer starts immediately with your chosen interval
+
+**Easy Access:**
+
+- No need to visit settings pages - configure directly from the main popup
+- Changes apply instantly to all open tabs
+- Configuration is saved automatically
+
 ## 📊 Statistics Displayed
 
 - **Total Sites Visited**: Number of unique domains tracked
@@ -269,6 +332,36 @@ The extension uses intelligent domain extraction:
 - Implement additional UI components in popup
 
 ## 📝 Changelog
+
+### Version 1.5 (Configurable Rest Timer)
+
+- ✅ **NEW**: Configurable timer duration (15 minutes to 2 hours)
+- ✅ **NEW**: Enable/disable toggle for rest timer in main popup
+- ✅ **NEW**: Timer configuration directly accessible from extension popup
+- ✅ **NEW**: Real-time configuration updates across all tabs
+- ✅ **IMPROVED**: Better user control over break timing preferences
+- ✅ **IMPROVED**: No need to access settings page for timer configuration
+- ✅ **IMPROVED**: Automatic configuration saving and loading
+
+### Version 1.4 (Side Popup Rest Timer)
+
+- ✅ **NEW**: Persistent side popup with live countdown timer display
+- ✅ **NEW**: Minimizable design with circular indicator
+- ✅ **NEW**: Interactive break messages with "I took a break!" button
+- ✅ **NEW**: Progress bar showing time elapsed towards break
+- ✅ **IMPROVED**: Always-visible timer instead of periodic notifications
+- ✅ **IMPROVED**: Better user control over break timing and acknowledgment
+- ✅ **FIXED**: Content Security Policy error with inline event handlers
+- ✅ **REMOVED**: Chrome notifications permission (no longer needed)
+
+### Version 1.3 (Rest Reminder System)
+
+- ✅ **NEW**: Rest reminder system with 30-minute interval notifications
+- ✅ **NEW**: Random motivational messages for break suggestions
+- ✅ **NEW**: Smart timer that pauses when browser loses focus
+- ✅ **NEW**: Automatic timer reset after each notification
+- ✅ **IMPROVED**: Health-focused browsing with regular break encouragement
+- ✅ **IMPROVED**: Eye strain prevention with gentle reminders
 
 ### Version 1.2 (Enhanced Tracking & CSP Fixes)
 
@@ -312,4 +405,4 @@ Feel free to contribute improvements, bug fixes, or new features. The codebase i
 This project is open source and available under standard open source licensing terms.
 #   A c t i v i t y - T r a c k e r - e x t e n t i o n 
  
- "# Activity-Tracker-extention" 
+ "# Activity-Tracker-extention"
