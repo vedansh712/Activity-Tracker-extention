@@ -9,8 +9,9 @@ let windowHasFocus = true;
 // Rest reminder side popup variables
 let restReminderPopup = null;
 let countdownInterval = null;
-let restTimeRemaining = 30 * 60; // 30 minutes in seconds
+let restTimeRemaining = 30 * 60; // 30 minutes in seconds (default)
 let isRestTimerActive = false;
+let restTimerConfig = { enabled: true, duration: 30 }; // Default configuration
 
 // Rest messages for the popup
 const restMessages = [
@@ -185,7 +186,9 @@ function createRestReminderPopup() {
       </div>
       
       <div id="countdown-display" style="text-align: center; margin-bottom: 15px;">
-        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;" id="countdown-time">30:00</div>
+        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;" id="countdown-time">${formatCountdownTime(
+          restTimeRemaining
+        )}</div>
         <div style="font-size: 12px; opacity: 0.8;">until your next break</div>
       </div>
       
@@ -244,7 +247,7 @@ function updateCountdownDisplay() {
   }
 
   if (progressBar) {
-    const totalTime = 30 * 60; // 30 minutes
+    const totalTime = restTimerConfig.duration * 60; // Use configured duration
     const progress = ((totalTime - restTimeRemaining) / totalTime) * 100;
     progressBar.style.width = `${progress}%`;
   }
@@ -286,8 +289,33 @@ function hideBreakMessage() {
 
 // Reset rest timer
 function resetRestTimer() {
-  restTimeRemaining = 30 * 60; // Reset to 30 minutes
+  restTimeRemaining = restTimerConfig.duration * 60; // Reset to configured duration
   updateCountdownDisplay();
+}
+
+// Load rest timer configuration
+async function loadRestTimerConfig() {
+  try {
+    const response = await new Promise((resolve) => {
+      chrome.runtime.sendMessage({ type: "GET_REST_TIMER_CONFIG" }, resolve);
+    });
+
+    if (response && response.config) {
+      restTimerConfig = response.config;
+      restTimeRemaining = restTimerConfig.duration * 60; // Update remaining time
+
+      // Update countdown display if popup exists
+      if (restReminderPopup) {
+        updateCountdownDisplay();
+      }
+
+      console.log(
+        `Rest timer config loaded: ${restTimerConfig.duration} minutes, enabled: ${restTimerConfig.enabled}`
+      );
+    }
+  } catch (error) {
+    console.error("Error loading rest timer config:", error);
+  }
 }
 
 // Minimize rest reminder (hide but keep running)
@@ -338,7 +366,7 @@ function expandRestReminder() {
 
 // Start the rest timer countdown
 function startRestTimer() {
-  if (isRestTimerActive) return;
+  if (isRestTimerActive || !restTimerConfig.enabled) return;
 
   isRestTimerActive = true;
   createRestReminderPopup();
@@ -398,6 +426,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (isRestTimerActive) {
       updateCountdownDisplay();
     }
+  }
+
+  if (message.type === "UPDATE_REST_DURATION") {
+    restTimerConfig.duration = message.duration;
+    restTimeRemaining = restTimerConfig.duration * 60; // Reset to new duration
+    if (isRestTimerActive) {
+      updateCountdownDisplay();
+    }
+    console.log(`Rest timer duration updated to ${message.duration} minutes`);
   }
 });
 
@@ -505,15 +542,22 @@ function showRedirectionNotification(data) {
 console.log("Activity Tracker content script loaded");
 
 // Initialize rest timer when page loads
+async function initializeRestTimer() {
+  await loadRestTimerConfig(); // Load configuration first
+  if (restTimerConfig.enabled) {
+    startRestTimer();
+  }
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
-      startRestTimer();
+      initializeRestTimer();
     }, 1000); // Small delay to ensure page is fully loaded
   });
 } else {
   // Page already loaded
   setTimeout(() => {
-    startRestTimer();
+    initializeRestTimer();
   }, 1000);
 }

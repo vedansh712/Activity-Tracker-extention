@@ -245,10 +245,12 @@ The extension uses intelligent domain extraction:
 
 #### How It Works
 
-The extension automatically tracks your continuous browsing activity and displays a persistent side popup with a countdown timer, showing you exactly when your next **30-minute** break is due.
+The extension automatically tracks your continuous browsing activity and displays a persistent side popup with a countdown timer, showing you exactly when your next break is due. You can customize the break interval and enable/disable the timer directly from the extension popup.
 
 #### Features
 
+- **Configurable Timer**: Choose from 15 minutes to 2 hours break intervals
+- **Enable/Disable Toggle**: Turn the rest timer on or off as needed
 - **Live Countdown Timer**: Shows exact time remaining until your next break (MM:SS format)
 - **Persistent Side Popup**: Always visible on the top-right of your browser pages
 - **Minimizable Design**: Can be collapsed to a small circular indicator
@@ -271,6 +273,33 @@ The extension automatically tracks your continuous browsing activity and display
 - **Mental Health**: Short breaks improve focus and reduce stress
 - **Always Visible**: Continuous awareness of break timing with countdown display
 - **User-Controlled**: Click "I took a break!" to reset the timer when you're ready
+
+#### Configuration Options
+
+Access rest timer settings directly from the extension popup (click the extension icon):
+
+**Timer Duration Options:**
+
+- 15 minutes (frequent breaks for intensive work)
+- 20 minutes (Pomodoro-style intervals)
+- 25 minutes (classic Pomodoro technique)
+- 30 minutes (default, balanced for most users)
+- 45 minutes (longer focus sessions)
+- 1 hour (extended work periods)
+- 1.5 hours (deep work sessions)
+- 2 hours (maximum interval)
+
+**Enable/Disable:**
+
+- Toggle the rest timer on or off using the switch in the popup
+- When disabled, the side popup disappears from all tabs
+- When enabled, the timer starts immediately with your chosen interval
+
+**Easy Access:**
+
+- No need to visit settings pages - configure directly from the main popup
+- Changes apply instantly to all open tabs
+- Configuration is saved automatically
 
 ## 📊 Statistics Displayed
 
@@ -303,6 +332,16 @@ The extension automatically tracks your continuous browsing activity and display
 - Implement additional UI components in popup
 
 ## 📝 Changelog
+
+### Version 1.5 (Configurable Rest Timer)
+
+- ✅ **NEW**: Configurable timer duration (15 minutes to 2 hours)
+- ✅ **NEW**: Enable/disable toggle for rest timer in main popup
+- ✅ **NEW**: Timer configuration directly accessible from extension popup
+- ✅ **NEW**: Real-time configuration updates across all tabs
+- ✅ **IMPROVED**: Better user control over break timing preferences
+- ✅ **IMPROVED**: No need to access settings page for timer configuration
+- ✅ **IMPROVED**: Automatic configuration saving and loading
 
 ### Version 1.4 (Side Popup Rest Timer)
 

@@ -72,6 +72,117 @@ body {
   letter-spacing: 0.5px;
 }
 
+.rest-timer-config {
+  padding: 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rest-timer-config h3 {
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  color: #2d3748;
+}
+
+.timer-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.timer-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #667eea;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.timer-duration {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timer-duration label {
+  font-size: 14px;
+  color: #4a5568;
+  font-weight: 500;
+  min-width: 90px;
+}
+
+.timer-duration select {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  color: #2d3748;
+  cursor: pointer;
+}
+
+.timer-duration select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.timer-duration.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .controls {
   padding: 0 20px 20px;
   display: flex;

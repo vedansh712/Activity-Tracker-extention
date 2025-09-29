@@ -37,6 +37,7 @@ async function initializeStorage() {
     "activityData",
     "redirectionRules",
     "dailyTimeTracking",
+    "restTimerConfig",
   ]);
   if (!result.activityData) {
     await chrome.storage.local.set({
@@ -53,6 +54,14 @@ async function initializeStorage() {
   if (!result.dailyTimeTracking) {
     await chrome.storage.local.set({
       dailyTimeTracking: {},
+    });
+  }
+  if (!result.restTimerConfig) {
+    await chrome.storage.local.set({
+      restTimerConfig: {
+        enabled: true,
+        duration: 30, // minutes
+      },
     });
   }
 }
@@ -344,6 +353,36 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       delete redirectionRules[message.domain];
       await chrome.storage.local.set({ redirectionRules });
       sendResponse({ success: true });
+    });
+    return true;
+  }
+
+  if (message.type === "GET_REST_TIMER_CONFIG") {
+    chrome.storage.local.get(["restTimerConfig"]).then((result) => {
+      sendResponse({
+        config: result.restTimerConfig || { enabled: true, duration: 30 },
+      });
+    });
+    return true;
+  }
+
+  if (message.type === "SAVE_REST_TIMER_CONFIG") {
+    chrome.storage.local.get(["restTimerConfig"]).then(async (result) => {
+      const currentConfig = result.restTimerConfig || {
+        enabled: true,
+        duration: 30,
+      };
+
+      // Update only the provided fields
+      if (message.enabled !== null && message.enabled !== undefined) {
+        currentConfig.enabled = message.enabled;
+      }
+      if (message.duration !== null && message.duration !== undefined) {
+        currentConfig.duration = message.duration;
+      }
+
+      await chrome.storage.local.set({ restTimerConfig: currentConfig });
+      sendResponse({ success: true, config: currentConfig });
     });
     return true;
   }

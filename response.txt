@@ -73,3 +73,43 @@
 **Expected Outcome**: Users now see a persistent side popup showing countdown to their next break. The timer is always visible, can be minimized, and shows encouraging messages when break time arrives. Much more user-friendly than notifications and provides continuous awareness of rest timing.
 
 -----------------------------------
+
+## Entry 3 - September 29, 2025
+
+-----------------------------------
+**Prompt**: "Make the 30 min timer configurable like people can choose how much time they want to set the timer for and make it so that it could be disabled and enabled also and don't put it on the setting page but put it on the popup that opens when the extension is pressed"
+
+**Action Plan**: Add configurable timer duration options (15 minutes to 2 hours) and enable/disable toggle directly to the main extension popup interface. Remove dependency on settings page for timer configuration and implement real-time configuration updates across all tabs.
+
+**Implementation Notes**: 
+- **Files Modified**:
+  - `popup.html`: Added rest timer configuration section with toggle switch and duration dropdown
+  - `popup.css`: Added styles for toggle switch, dropdown, and configuration layout
+  - `popup.js`: Added timer configuration UI handlers and storage management
+  - `background.js`: Added storage initialization and message handlers for timer config
+  - `content.js`: Updated to use configurable duration and enable/disable functionality
+  - `README.md`: Updated documentation with configuration options and new version info
+
+- **New Configuration Features**:
+  - **Duration Options**: 15, 20, 25, 30, 45, 60, 90, 120 minutes
+  - **Toggle Switch**: Beautiful animated enable/disable control
+  - **Real-time Updates**: Changes apply immediately to all open tabs
+  - **Automatic Storage**: Configuration saved to browser storage
+  - **Visual Feedback**: Duration selector disabled when timer is off
+
+- **UI/UX Improvements**:
+  - **In-Popup Configuration**: No need to visit separate settings page
+  - **Intuitive Toggle**: Modern toggle switch with smooth animations
+  - **Dropdown Selection**: Easy-to-use duration picker with time descriptions
+  - **Responsive Design**: Configuration section fits seamlessly in popup
+  - **Visual States**: Clear indication when timer is enabled/disabled
+
+- **Technical Implementation**:
+  - **Storage Schema**: Added `restTimerConfig` with enabled/duration fields
+  - **Message Passing**: Implemented config sync between popup and content scripts
+  - **State Management**: Proper loading and saving of configuration
+  - **Error Handling**: Graceful fallbacks and error logging
+
+**Expected Outcome**: Users can now easily customize their rest timer experience directly from the main extension popup. They can choose from 8 different time intervals (15 minutes to 2 hours) and instantly enable or disable the timer. Changes apply immediately to all tabs without requiring page refreshes or visiting settings pages.
+
+-----------------------------------
